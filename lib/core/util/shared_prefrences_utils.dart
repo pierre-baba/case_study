@@ -8,6 +8,7 @@ class PreferencesUtils {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(_unitKey, unit);
     } catch (e) {
+      return;
     }
   }
 

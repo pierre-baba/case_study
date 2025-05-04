@@ -91,7 +91,7 @@ class DayListItem extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                "${DateFormat("HH:MM").format(DateTime.parse(item.dtTxt!))}",
+                DateFormat("HH:MM").format(DateTime.parse(item.dtTxt!)),
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ],

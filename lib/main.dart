@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       title: 'Weather App',
       home: BlocProvider(
         create: (_) => di.sl<WeatherBloc>(),
-        child: WeatherPage(),
+        child: const WeatherPage(),
       ),
     );
   }

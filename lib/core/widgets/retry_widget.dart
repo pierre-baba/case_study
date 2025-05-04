@@ -23,7 +23,7 @@ class RetryWidget extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.error, size: 60, color: Colors.redAccent),
+              const Icon(Icons.error, size: 60, color: Colors.redAccent),
               const SizedBox(height: 16),
               Text(
                 message,

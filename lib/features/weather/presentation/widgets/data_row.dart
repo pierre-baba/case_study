@@ -11,25 +11,24 @@ class DataSpanText extends StatelessWidget {
   final TextAlign textAlign;
 
   const DataSpanText(
-      {Key? key,
+      {super.key,
       required this.text1,
       required this.text2,
       this.textAlign = TextAlign.center,
       this.onPressed,
       this.style1,
       this.style2,
-      this.reverse = false})
-      : super(key: key);
+      this.reverse = false});
 
   @override
   Widget build(BuildContext context) {
-    TextStyle text1Style = TextStyle(
+    TextStyle text1Style = const TextStyle(
       fontSize: 16,
       color: Colors.black,
       fontWeight: FontWeight.w400,
       decoration: TextDecoration.none,
     );
-    TextStyle text2Style = TextStyle(
+    TextStyle text2Style = const TextStyle(
       fontSize: 16,
       color: Colors.black,
       fontWeight: FontWeight.w700,

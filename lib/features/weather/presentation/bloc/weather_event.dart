@@ -20,7 +20,7 @@ class LoadWeather extends WeatherEvent {
 class SelectDay extends WeatherEvent {
   final int selectedIndex;
 
-  SelectDay(this.selectedIndex);
+  const SelectDay(this.selectedIndex);
 
   @override
   List<Object> get props => [selectedIndex];
