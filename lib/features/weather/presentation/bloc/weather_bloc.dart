@@ -3,6 +3,7 @@ import 'package:flaconi/features/weather/data/models/weather_model.dart';
 import 'package:flaconi/features/weather/domain/entities/weather_params.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/util/shared_prefrences_utils.dart';
 import '../../domain/usecases/get_weather.dart';
 
 part 'weather_event.dart';
@@ -10,8 +11,6 @@ part 'weather_state.dart';
 
 class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   final GetWeather getWeather;
-
-  WeatherParams _params = WeatherParams();
 
   WeatherBloc(this.getWeather) : super(WeatherInitial()) {
     on<LoadWeather>(_onLoadWeather);
@@ -22,8 +21,9 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   Future<void> _onLoadWeather(
       LoadWeather event, Emitter<WeatherState> emit) async {
     emit(WeatherLoading());
+    final unit = await PreferencesUtils.loadUnit();
 
-    final result = await getWeather(event.params);
+    final result = await getWeather(event.params.copyWith(unit: unit));
 
     result.fold(
       (failure) => emit(WeatherError(failure.message)),
@@ -31,7 +31,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
         WeatherLoaded(
           weather: weather,
           selectedIndex: 0,
-          params: event.params,
+          params: event.params.copyWith(unit: unit),
         ),
       ),
     );
@@ -48,10 +48,12 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       ChangeUnit event, Emitter<WeatherState> emit) async {
     final currentState = state;
     if (currentState is WeatherLoaded) {
-      final newUnit = currentState.params.unit == "metric" ? "imperial" : "metric";
+      final newUnit =
+          currentState.params.unit == "metric" ? "imperial" : "metric";
       emit(WeatherLoading());
       final result =
           await getWeather(currentState.params.copyWith(unit: newUnit));
+      await PreferencesUtils.saveUnit(newUnit);
       result.fold(
         (failure) => emit(WeatherError(failure.message)),
         (weather) => emit(
